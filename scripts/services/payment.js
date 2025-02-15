@@ -7,7 +7,7 @@ function paymentGateWay(amount){
     }
 
 var options = {
-    "key": "rzp_test_Op9FmLl5LP1gUC", // Enter the Key ID generated from the Dashboard
+    "key": env.RazerPay_API_KEY, // Enter the Key ID generated from the Dashboard
     "amount": amount * 100 , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     "currency": "USD",
     "name": "Pizza Shop", //your business name
