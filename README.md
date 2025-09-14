@@ -6,7 +6,6 @@ Pizza Shop is a dynamic e-commerce web application built using **HTML, CSS, and 
 
 - **Dynamic UI**: The pizza menu, cart, and checkout are dynamically generated.
 - **JSON Data Fetching**: Pizza details are imported via a network call to a JSON file.
-- **Live Location Fetching**: Retrieves the user's current location (not sent to a backend).
 - **Interactive Cart**: Users can add or remove items from their cart.
 - **Payment Integration**: Supports payments through **Razorpay**.
 
