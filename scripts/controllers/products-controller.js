@@ -1,11 +1,9 @@
 // glue between view and model
 // controlls the I/O in UI
-import product from "../models/product.js";
 import productOperation from "../services/product-operation.js";
 
 async function loadPizza(){
     const pizzas = await productOperation.loadProduct();
-    console.log('pizzas are', pizzas);
     for(let pizza of pizzas){
         preparePizzacard(pizza);
     }
@@ -13,34 +11,29 @@ async function loadPizza(){
 loadPizza();
 
 function addToCart(){
-    console.log('add to cart called' , this) // this .....it has the current object refence
     const currentButton = this;
     const pizzaId = currentButton.getAttribute('product-id');
-    console.log('pizza Id is ',pizzaId);
     productOperation.search(pizzaId);
     printbasket();
     printCheckout();
 }
 
 function removeFromCart(){
-    console.log('remove button is pressed',this);
     const currentButton = this;
     const pizzaId = currentButton.getAttribute('product-id');
-    console.log('pizza id is',pizzaId);
     productOperation.removeProduct(pizzaId);
     printbasket();
     printCheckout();
 }
 
-function preparePizzacard(pizza){
+function preparePizzacard(pizza) {
     const outputDiv = document.querySelector('#output');
-    
+
     const colDiv = document.createElement('div');
-    colDiv.className = 'col-4';
+    colDiv.className = 'col-sm-6 col-md-4 col-lg-3 mb-4'; // responsive column
 
     const cardDiv = document.createElement('div');
-    cardDiv.className = 'card';
-    cardDiv.style = "width: 18rem;";
+    cardDiv.className = 'card h-100 shadow-sm'; // h-100 makes equal height
     colDiv.appendChild(cardDiv);
 
     const img = document.createElement('img');
@@ -49,7 +42,7 @@ function preparePizzacard(pizza){
     cardDiv.appendChild(img);
 
     const cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
+    cardBody.className = 'card-body d-flex flex-column';
     cardDiv.appendChild(cardBody);
 
     const h5 = document.createElement('h5');
@@ -58,80 +51,77 @@ function preparePizzacard(pizza){
     cardBody.appendChild(h5);
 
     const pTag = document.createElement('p');
-    pTag.className = 'card-text';
+    pTag.className = 'card-text text-muted';
     pTag.innerText = pizza.desc;
     cardBody.appendChild(pTag);
 
     const button = document.createElement('button');
     button.setAttribute('product-id', pizza.id);
-    button.addEventListener('click',addToCart); // event blind
-    button.className = 'btn btn-primary';
+    button.addEventListener('click', addToCart);
+    button.className = 'btn btn-primary mt-auto'; // mt-auto pushes button to bottom
     button.innerText = 'Add To Cart';
     cardBody.appendChild(button);
 
     outputDiv.appendChild(colDiv);
-
 }
 
-function printbasket(){
+function printbasket() {
     const cartproducts = productOperation.getProductsIncart();
     const basket = document.querySelector('#basket');
     basket.innerHTML = ''; 
 
-    for(let product of cartproducts){
+    for (let product of cartproducts) {
         const li = document.createElement('li');
-        li.className = "list-group-item d-flex justify-content-between align-items-start";
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
 
         const outterdiv = document.createElement('div');
-        outterdiv.className = "ms-2 me-auto";
-        outterdiv.innerText = `${product.name}`;
+        outterdiv.innerHTML = `<div class="fw-bold">${product.name}</div>`;
 
-        const innerDiv = document.createElement('div');
-        innerDiv.className = "fw-bold";
-        innerDiv.innerText = `${product.price}`;
+        const price = document.createElement('span');
+        price.className = "badge bg-secondary rounded-pill me-2";
+        price.innerText = `$${product.price}`;
 
         const removeButton = document.createElement('button');
-        removeButton.setAttribute('product-id',`${product.id}`);
-        removeButton.addEventListener('click',removeFromCart);
-        removeButton.className = "badge text-bg-primary rounded-pill";
+        removeButton.setAttribute('product-id', product.id);
+        removeButton.addEventListener('click', removeFromCart);
+        removeButton.className = "btn btn-sm btn-outline-danger";
         removeButton.innerText = 'Remove';
 
-        basket.appendChild(li);
         li.appendChild(outterdiv);
-        outterdiv.appendChild(innerDiv);
+        li.appendChild(price);
         li.appendChild(removeButton);
 
-    
+        basket.appendChild(li);
     }
 }
 
-function printCheckout(){
+function printCheckout() {
     const totalPrice = productOperation.checkOut();
     const checkout = document.querySelector('#checkout');
     checkout.innerHTML = '';
 
     const cardDiv = document.createElement('div');
-    cardDiv.className = 'card ';
+    cardDiv.className = 'card shadow-sm';
 
     const headerDiv = document.createElement('div');
-    headerDiv.className = 'card-header';
+    headerDiv.className = 'card-header text-center fw-bold';
     headerDiv.innerText = "CHECKOUT";
 
     const bodyDiv = document.createElement('div');
-    bodyDiv.className = 'card-body';
+    bodyDiv.className = 'card-body text-center';
     
     const h5 = document.createElement('h5');
     h5.className = "card-title";
     h5.innerText = "Payable Amount";
 
     const p = document.createElement('p');
-    p.className = 'card-text';
-    p.innerText = totalPrice;
+    p.className = 'card-text fs-4 fw-semibold text-success';
+    p.innerText = `$${totalPrice}`;
 
     const button = document.createElement('button');
-    button.className = "btn btn-primary";
+    button.className = "btn btn-success w-100";
     button.id = 'rzp-button1';
-    button.addEventListener('click',()=>paymentGateWay(totalPrice));
+    button.addEventListener('click', () => paymentGateWay(totalPrice));
     button.innerText = "Pay Now";
 
     checkout.appendChild(cardDiv);

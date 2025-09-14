@@ -13,20 +13,16 @@ const productOperation={
 
     search(pizzaId){
         const product = this.products.find(currentProduct=>currentProduct.id==pizzaId);
-        console.log('product found', product);
         product.isAddedInCart = true;
-        console.log('array',this.products);
     },
 
     removeProduct(pizzaId){
         const product = this.products.find(currentProduct=>currentProduct.id==pizzaId);
-        console.log('product found', product);
         product.isAddedInCart = false;
     },
 
     getProductsIncart(){
         const productInBasket = this.products.filter(product=>product.isAddedInCart);
-        console.log(productInBasket);
         return productInBasket;
     },
 
@@ -38,9 +34,7 @@ const productOperation={
         total=total.toFixed(2);  // Format to 2 decimal places
         if (total<0) {
             alert("Please Select any of one Product");
-        }
-
-        console.log('Total Price of All Pizzas:', total); 
+        } 
         return total;
 
     },
@@ -52,7 +46,6 @@ const productOperation={
             const currentPizza = new product(pizza.id, pizza.name, pizza.menu_description, pizza.price, pizza.assets.product_details_page[0].url);
             return currentPizza;
         })
-        console.log('Product Array', productArray);
         this.products = productArray;
         return productArray;
     },

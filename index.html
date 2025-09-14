@@ -8,8 +8,6 @@
     <script src="./scripts/controllers/products-controller.js" type="module"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script defer src="/scripts/services/payment.js"></script>
-    <script src="/scripts/services/gps.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGThUDyOvNRTA48xhFifgWIeSI1PsTr6w&libraries=places&callback=initAutocomplete"></script>
 </head>
 <body>
 
@@ -17,8 +15,6 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#">🍕 Pizza Shop</a>
-        <button class="btn btn-light btn-sm" onclick="getLocation()">📍 My Location</button>
-        <span class="text-white ms-2" id="location-text">Fetching...</span>
     </div>
 </nav>
     <div class="row">
